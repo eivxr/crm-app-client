@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 import clienteAxios from "../../config/axios.js";
 
 import { Link } from "react-router-dom";
@@ -17,7 +18,7 @@ const Clientes = () => {
 
   useEffect(() => {
     consultaAPI();
-  }, []);
+  }, [clientes]);
 
   return (
     <>

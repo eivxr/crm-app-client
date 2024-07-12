@@ -1,15 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
-
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import clienteAxios from "../../config/axios";
 
-
-
-const NuevoCliente = () => {
- //hooks
- const navigate = useNavigate();
+const EditarCliente = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id);
 
   const [clienteData, setClienteData] = useState({
     nombre: "",
@@ -19,6 +17,24 @@ const NuevoCliente = () => {
     telefono: "",
   });
 
+  //consulta el cliente por medio de id
+  const clienteQuery = async () => {
+    try {
+      const cliente = await clienteAxios.get(`/clientes/${id}`);
+      setClienteData(cliente.data);
+    } catch (error) {
+      console.error("Error al obtener el cliente:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo obtener el cliente",
+      });
+    }
+  };
+
+  useEffect(() => {
+    clienteQuery();
+  }, []);
   //actualiza el objeto clienteData cuando se introduce informacion en este
   const handleChange = (e) => {
     setClienteData({
@@ -31,24 +47,23 @@ const NuevoCliente = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    clienteAxios.post("/clientes", clienteData).then((res) => {
+    clienteAxios.put(`/clientes/${id}`, clienteData).then((res) => {
       if (res.data.code === 11000) {
         Swal.fire({
-            icon: 'error',
-            title: "Hubo un error",
-            text: 'Ese cliente ya existe',
-
-          });
+          icon: "error",
+          title: "Hubo un error",
+          text: "Ese cliente ya ha sido registrado",
+        });
       } else {
         console.log(res.data);
         Swal.fire({
-            title: "Cliente agregado",
-            text: res.data.mensaje,
-            icon: "success"
-          });
+          title: "Cambios realizados",
+          text: "Cliente actualizado correctamente",
+          icon: "success",
+        });
       }
 
-      navigate('/')
+      navigate("/");
     });
   };
 
@@ -78,6 +93,7 @@ const NuevoCliente = () => {
             placeholder="Nombre Cliente"
             name="nombre"
             onChange={handleChange}
+            value={clienteData.nombre}
           />
         </div>
 
@@ -88,6 +104,7 @@ const NuevoCliente = () => {
             placeholder="Apellido Cliente"
             name="apellido"
             onChange={handleChange}
+            value={clienteData.apellido}
           />
         </div>
 
@@ -98,6 +115,7 @@ const NuevoCliente = () => {
             placeholder="Empresa Cliente"
             name="empresa"
             onChange={handleChange}
+            value={clienteData.empresa}
           />
         </div>
 
@@ -108,6 +126,7 @@ const NuevoCliente = () => {
             placeholder="Email Cliente"
             name="correo"
             onChange={handleChange}
+            value={clienteData.correo}
           />
         </div>
 
@@ -118,6 +137,7 @@ const NuevoCliente = () => {
             placeholder="Teléfono Cliente"
             name="telefono"
             onChange={handleChange}
+            value={clienteData.telefono}
           />
         </div>
 
@@ -125,7 +145,7 @@ const NuevoCliente = () => {
           <input
             type="submit"
             className="btn btn-azul"
-            value="Agregar Cliente"
+            value="Guardar cambios"
             disabled={validarCliente()}
           />
         </div>
@@ -134,4 +154,4 @@ const NuevoCliente = () => {
   );
 };
 
-export default NuevoCliente;
+export default EditarCliente;
