@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-
 import clienteAxios from "../../config/axios.js";
 
 import { Link } from "react-router-dom";
 import Cliente from "./Cliente.jsx";
+import Spinner from "../layout/loading/Spinner.jsx";
 
 const Clientes = () => {
   //manejo de estado
@@ -19,7 +19,7 @@ const Clientes = () => {
   useEffect(() => {
     consultaAPI();
   }, [clientes]);
-
+  if (!clientes.length) return <Spinner />;
   return (
     <>
       <h2>Clientes</h2>
