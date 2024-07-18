@@ -50,7 +50,7 @@ const Producto = ({ producto }) => {
           className="btn btn-rojo btn-eliminar"
         >
           <i className="fas fa-times"></i>
-          Eliminar Cliente
+          Eliminar producto
         </button>
       </div>
     </li>

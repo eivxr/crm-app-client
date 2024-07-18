@@ -12,9 +12,8 @@ import Productos from "./components/productos/Productos";
 import NuevoProducto from "./components/productos/NuevoProducto";
 import EditarProducto from "./components/productos/EditarProducto";
 
-
-import Pedidos from "./components/pedidos/Pedido"
-
+import Pedidos from "./components/pedidos/Pedido";
+import NuevoPedido from "./components/pedidos/NuevoPedido";
 
 function App() {
   return (
@@ -28,13 +27,26 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Clientes />} />
               <Route exact path="/clientes/nuevo" element={<NuevoCliente />} />
-              <Route exact path="/clientes/editar/:id" element={<EditarCliente />} />
+              <Route
+                exact
+                path="/clientes/editar/:id"
+                element={<EditarCliente />}
+              />
 
-              <Route exact path="/productos"  element={<Productos/>}/>
-              <Route exact path="/productos/nuevo"  element={<NuevoProducto/>}/>
-              <Route exact path="/productos/editar/:id"  element={<EditarProducto/>}/>
+              <Route exact path="/productos" element={<Productos />} />
+              <Route
+                exact
+                path="/productos/nuevo"
+                element={<NuevoProducto />}
+              />
+              <Route
+                exact
+                path="/productos/editar/:id"
+                element={<EditarProducto />}
+              />
 
               <Route exact path="/pedidos" element={<Pedidos />} />
+              <Route exact path="/pedidos/nuevo/:id" element={<NuevoPedido />} />
             </Routes>
           </main>
         </div>
