@@ -1,9 +1,34 @@
-import React from 'react'
+import React from "react";
+import { useState, useEffect } from "react";
+import clienteAxios from "../../config/axios";
+import DetallesPedido from "./DetallesPedido";
 
 const Pedidos = () => {
-  return (
-    <div>Pedidos</div>
-  )
-}
+  const [pedidos, setPedidos] = useState([]);
 
-export default Pedidos
+  useEffect(() => {
+    const request = async () => {
+      const query = await clienteAxios.get("/pedidos");
+      setPedidos(query.data);
+    };
+
+    request();
+  }, [pedidos]);
+
+  return (
+    <>
+      <h2>Pedidos</h2>
+      {
+        pedidos.length ? 
+        <ul className="listado-pedidos">
+        {pedidos.map((pedido) => (
+          <DetallesPedido key={pedido._id} pedido={pedido} />
+        ))}
+      </ul> : <h3>No hay pedidos</h3>
+      }
+      
+    </>
+  );
+};
+
+export default Pedidos;
