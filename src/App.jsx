@@ -17,14 +17,14 @@ import Pedidos from "./components/pedidos/Pedidos";
 import NuevoPedido from "./components/pedidos/NuevoPedido";
 import Login from "./components/auth/Login";
 
-import { context, contextProvider } from "./context/context.jsx";
+import { AuthContext,AuthContextProvider } from "./context/context.jsx";
 
 function App() {
-  const [auth, setAuth] = useContext(context);
+  const [auth, setAuth] = useContext(AuthContext);
 
   return (
     <>
-      <contextProvider value={[auth, setAuth]}>
+      <AuthContextProvider value={[auth, setAuth]}>
         <BrowserRouter>
           <Header />
           <div className="grid contenedor contenido-principal">
@@ -68,7 +68,7 @@ function App() {
             </main>
           </div>
         </BrowserRouter>
-      </contextProvider>
+      </AuthContextProvider>
     </>
   );
 }

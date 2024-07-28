@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
 import clienteAxios from "../../config/axios";
+import { AuthContext } from "../../context/context";
 
 const Login = () => {
+  const [auth, setAuth] = useContext(AuthContext);
   const [datos, setDatos] = useState({});
   const navigate = useNavigate();
 
@@ -17,12 +19,14 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await clienteAxios.post("/iniciar-sesion", datos);
-
-      //etraccion del token y colocacion en almacenamiento local
       const { token } = res.data;
       localStorage.setItem("token", token);
+      setAuth({
+        token,
+        auth: true,
+      });
       Swal.fire("Correcto", "Has iniciado sesión", "info");
-      navigate('/')
+      navigate("/");
     } catch (error) {
       Swal.fire({
         icon: "error",
